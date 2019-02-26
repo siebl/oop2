@@ -1,4 +1,4 @@
-package ch.develop.s2repetition.exce4;
+package ch.develop.w1repetition.exce4;
 
 import java.io.IOException;
 import java.nio.file.Files;

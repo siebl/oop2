@@ -1,4 +1,4 @@
-package ch.develop.s2repetition.exce1;
+package ch.develop.w1repetition.exce1;
 
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
