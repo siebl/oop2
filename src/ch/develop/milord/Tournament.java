@@ -6,12 +6,12 @@ public class Tournament extends BaseEntity {
 
 	private LocalDate date;
 
-	private Person person;
+	private Person organisator;
 
-	public Tournament(int id, LocalDate date, Person person) {
+	public Tournament(int id, LocalDate date, Person organisator) {
 		setId(id);
 		this.date = date;
-		this.person = person;
+		this.organisator = organisator;
 	}
 
 	public LocalDate getDate() {
@@ -22,12 +22,12 @@ public class Tournament extends BaseEntity {
 		this.date = date;
 	}
 
-	public Person getPerson() {
-		return person;
+	public Person getOrganisator() {
+		return organisator;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setOrganisator(Person person) {
+		this.organisator = person;
 	}
 
 }

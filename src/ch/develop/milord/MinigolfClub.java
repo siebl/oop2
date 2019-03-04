@@ -2,6 +2,7 @@ package ch.develop.milord;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MinigolfClub {
 
@@ -79,4 +80,8 @@ public class MinigolfClub {
 		return participationList;
 	}
 
+	public List<Participation> getParticipations(ParticipationFilter filter){
+		return participationList.stream().filter( filter ).collect(Collectors.toList());
+	}
+	
 }
