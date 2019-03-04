@@ -1,14 +1,21 @@
 package ch.develop.milord;
 
+import java.time.LocalDate;
 import java.util.function.Predicate;
 
 public class ParticipationFilter implements Predicate<Participation> {
 
-	Tournament tournament;
+	private Tournament tournament;
 	
-	Category category;
+	private Category category;
 	
-	Gender gender;
+	private Gender gender;
+	
+	private Member member;
+	
+	private LocalDate dateFrom;
+	
+	private LocalDate dateTo;
 	
 	@Override
 	public boolean test(Participation participation) {
@@ -25,7 +32,40 @@ public class ParticipationFilter implements Predicate<Participation> {
 				matches &= gender == sex; 
 			}
 		}
+		if(member != null) {
+			matches &= participation.getMember().equals(member);
+		}
+		if(dateFrom != null) {
+			matches &= dateFrom.isBefore( participation.getTournament().getDate() );
+		}
+		if(dateTo != null) {
+			matches &= dateTo.isAfter( participation.getTournament().getDate() );
+		}
 		return matches;
+	}
+
+	public void setTournament(Tournament tournament) {
+		this.tournament = tournament;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
+	public void setMember(Member member) {
+		this.member = member;
+	}
+
+	public void setDateFrom(LocalDate dateFrom) {
+		this.dateFrom = dateFrom;
+	}
+
+	public void setDateTo(LocalDate dateTo) {
+		this.dateTo = dateTo;
 	}
 
 }
