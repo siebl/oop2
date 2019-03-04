@@ -20,10 +20,9 @@ public class ParticipationFilter implements Predicate<Participation> {
 			matches &= participation.getCategory() == category;
 		}
 		if( gender != null ) {
-			Member participant = participation.getMember();
-			if(participant instanceof Elite) {
-				Elite elite = (Elite)participant;
-				matches &= elite.getSex() == gender;
+			Gender sex = participation.getMember().getSex();
+			if(gender != null) {
+				matches &= gender == sex; 
 			}
 		}
 		return matches;

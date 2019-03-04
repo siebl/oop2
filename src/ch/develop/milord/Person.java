@@ -7,6 +7,8 @@ public class Person {
 	protected String firstName;
 
 	protected String lastName;
+	
+	protected Gender sex;
 
 	private int password;
 
@@ -16,6 +18,8 @@ public class Person {
 		this.id = id;
 		//TODO what is this int for? was the int meant to be the id?
 	}
+	
+	//FIXME id:int     password:String    ? makes no sense!
 
 	public String getId() {
 		return id;
@@ -41,4 +45,12 @@ public class Person {
 		this.lastName = lastName;
 	}
 
+	public Gender getSex() {
+		return sex;
+	}
+
+	public void setSex(Gender sex) {
+		this.sex = sex;
+	}
+	
 }
