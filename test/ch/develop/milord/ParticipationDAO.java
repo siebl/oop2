@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import ch.develop.milord.exception.DataNotFoundException;
+
 public class ParticipationDAO {
 
 	private static final Logger logger = Logger.getLogger(ParticipationDAO.class.getName());
 
-	public void loadResults() {
+	public void loadResults() throws DataNotFoundException {
 		log("load results");
 		MinigolfClub dataManager = MinigolfClub.getInstance();
 		try {
@@ -26,7 +28,7 @@ public class ParticipationDAO {
 		}
 	}
 
-	private Member findMember(String id) {
+	private Member findMember(String id) throws DataNotFoundException {
 		MinigolfClub dataManager = MinigolfClub.getInstance();
 		List<Member> ms = dataManager.getMemberList();
 		List<Member> ps = ms.stream().filter(e -> e.getId().equals(id)).collect(Collectors.toList());
@@ -48,7 +50,7 @@ public class ParticipationDAO {
 	public String[] resultString = { "16416;elim1;20;ELITE", "12234;elim2;20;ELITE", "13956;elim3;21;ELITE",
 			"12480;elim4;21;ELITE", "14571;elif1;22;ELITE", "16416;elif2;23;ELITE", "12234;elif3;21;ELITE",
 			"13956;elif4;23;ELITE", "12480;elif5;25;ELITE", "12480;elif3;22;ELITE", "14571;elif6;25;ELITE",
-			"14571;self1;25;SENIOR", "1481;self2;45;SENIOR", "14940;self3;35;SENIOR", "16416;self4;45;SENIOR",
+			"14571;self1;25;SENIOR", "14817;self2;45;SENIOR", "14940;self3;35;SENIOR", "16416;self4;45;SENIOR",
 			"12603;self5;21;SENIOR", "12972;julf1;19;JUNIOR", "13095;julf2;22;JUNIOR", "13833;julf3;26;JUNIOR",
 			"13956;julf4;26;JUNIOR", "14202;julf5;36;JUNIOR", "14448;elif1;26;ELITE", "15309;elif2;26;ELITE",
 			"15924;elif3;26;ELITE", "12849;elif4;26;ELITE", "13341;elif5;26;ELITE", "13464;self1;26;SENIOR",

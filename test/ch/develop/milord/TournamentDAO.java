@@ -3,6 +3,8 @@ package ch.develop.milord;
 import java.time.LocalDate;
 import java.util.logging.Logger;
 
+import ch.develop.milord.exception.DataNotFoundException;
+
 public class TournamentDAO {
 
 	private static final Logger logger = Logger.getLogger(TournamentDAO.class.getName());
@@ -11,7 +13,7 @@ public class TournamentDAO {
 
 	}
 
-	public void loadTournaments() {
+	public void loadTournaments() throws DataNotFoundException {
 		log("load tournaments");
 		MinigolfClub dataManager = MinigolfClub.getInstance();
 		try {
@@ -34,7 +36,7 @@ public class TournamentDAO {
 		return LocalDate.of(year, month, day);
 	}
 
-	private Person findPerson(String id) {
+	private Person findPerson(String id) throws DataNotFoundException {
 		for (Person p : MinigolfClub.getInstance().getPersonList()) {
 			if (p.getId().equals(id))
 				return p;

@@ -3,11 +3,13 @@ package ch.develop.milord;
 import java.time.LocalDate;
 import java.util.logging.Logger;
 
+import ch.develop.milord.exception.DataNotFoundException;
+
 public class PersonDAO {
 
 	private static final Logger logger = Logger.getLogger(PersonDAO.class.getName());
 
-	public void loadPersons() {
+	public void loadPersons() throws DataNotFoundException {
 		log("load persons");
 		MinigolfClub dataManager = MinigolfClub.getInstance();
 		loadPersons(dataManager);
@@ -45,7 +47,7 @@ public class PersonDAO {
 		}
 	}
 
-	private void addTrainersAndCustodians(MinigolfClub dataManager) {
+	private void addTrainersAndCustodians(MinigolfClub dataManager) throws DataNotFoundException {
 		for (Member elite : dataManager.getMemberList()) {
 			elite.setTrainer(dataManager.findPerson("pelf1"));
 		}

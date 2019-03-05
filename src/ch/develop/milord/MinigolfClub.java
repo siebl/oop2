@@ -2,7 +2,10 @@ package ch.develop.milord;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+
+import ch.develop.milord.exception.DataNotFoundException;
 
 public class MinigolfClub {
 
@@ -25,7 +28,7 @@ public class MinigolfClub {
 		participationList  = new ArrayList<>();
 	}
 
-	public static MinigolfClub getInstance() {
+	public static MinigolfClub getInstance() throws DataNotFoundException {
 		if (instance == null) {
 			instance = new MinigolfClub();
 			DataFactory.getPersonDAO().loadPersons();
@@ -35,21 +38,23 @@ public class MinigolfClub {
 		return instance;
 	}
 
-	public Person findPerson(String id) {
-		for (Person p : personList) {
-			if (p.getId().equals(id))
-				return p;
+	public Person findPerson(String id) throws DataNotFoundException {
+		try {
+			return personList.stream().filter(p -> p.equals(id) ).findFirst().get();
 		}
-		return null;
+		catch(NoSuchElementException e) {
+			throw new DataNotFoundException();
+		}
 	}
 	
 	
-	public Tournament findTournament(int id) {
-		for (Tournament t : tournamentList) {
-			if (t.getId() == id)
-				return t;
+	public Tournament findTournament(int id) throws DataNotFoundException {
+		try {
+			return tournamentList.stream().filter( p -> p.equals(id) ).findFirst().get();
 		}
-		return null;
+		catch(NoSuchElementException e) {
+			throw new DataNotFoundException();
+		}
 	}
 	
 	public List<Person> getPersonList() {

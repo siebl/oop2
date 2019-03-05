@@ -5,11 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import ch.develop.milord.exception.DataNotFoundException;
+
 public class Tests {
 
 	private static MinigolfClub club;
 
-	public static void testSetUp() {
+	public static void testSetUp() throws DataNotFoundException {
 		club = MinigolfClub.getInstance();
 	}
 
@@ -93,17 +95,17 @@ public class Tests {
 	}
 
 	@Test
-	void test15() {
+	void test15() throws DataNotFoundException {
 		assertEquals("PerName1", club.findPerson("pelf1").getLastName());
 	}
 
 	@Test
-	void test16() {
+	void test16() throws DataNotFoundException {
 		assertEquals("FirstName1", club.findPerson("pelf1").getFirstName());
 	}
 
 	@Test
-	void test17() {
+	void test17() throws DataNotFoundException {
 		assertEquals("PerName3", club.findPerson("pelf3").getLastName());
 	}
 
