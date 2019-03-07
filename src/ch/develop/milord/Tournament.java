@@ -6,12 +6,12 @@ public class Tournament extends BaseEntity {
 
 	private LocalDate date;
 
-	private Person organisator;
+	private Person referee;
 
 	public Tournament(int id, LocalDate date, Person organisator) {
 		setId(id);
 		this.date = date;
-		this.organisator = organisator;
+		this.referee = organisator;
 	}
 
 	public LocalDate getDate() {
@@ -22,17 +22,17 @@ public class Tournament extends BaseEntity {
 		this.date = date;
 	}
 
-	public Person getOrganisator() {
-		return organisator;
+	public Person getReferee() {
+		return referee;
 	}
 
-	public void setOrganisator(Person person) {
-		this.organisator = person;
+	public void setReferee(Person person) {
+		this.referee = person;
 	}
 	
 	@Override
 	public String toString() {
-		return "Tournament [date=" + date + ", organisator=" + organisator + ", id=" + id + "]";
+		return "Tournament [date=" + date + ", organisator=" + referee + ", id=" + id + "]";
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class Tournament extends BaseEntity {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((organisator == null) ? 0 : organisator.hashCode());
+		result = prime * result + ((referee == null) ? 0 : referee.hashCode());
 		return result;
 	}
 
@@ -58,10 +58,10 @@ public class Tournament extends BaseEntity {
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
-		if (organisator == null) {
-			if (other.organisator != null)
+		if (referee == null) {
+			if (other.referee != null)
 				return false;
-		} else if (!organisator.equals(other.organisator))
+		} else if (!referee.equals(other.referee))
 			return false;
 		return true;
 	}

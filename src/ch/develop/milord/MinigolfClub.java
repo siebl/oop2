@@ -1,5 +1,6 @@
 package ch.develop.milord;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -85,8 +86,56 @@ public class MinigolfClub {
 		return participationList;
 	}
 
-	public List<Participation> getParticipations(ParticipationFilter filter){
+	public List<Participation> getParticipations(ParticipationFilter filter) {
 		return participationList.stream().filter( filter ).collect(Collectors.toList());
 	}
+	
+	/**
+	 * Do not use this shitty method! Use {@link MinigolfClub#getParticipations(ParticipationFilter)} instead.
+	 * @throws DataNotFoundException 
+	 */
+	@Deprecated
+	public List<Participation> getTournamentScores(int i) throws DataNotFoundException {
+		ParticipationFilter filter = new ParticipationFilter();
+		filter.setTournamentId(i);
+		List<Participation> result = getParticipations(filter);
+		if( result.isEmpty() ) {
+			throw new DataNotFoundException();
+		}
+		return result;
+	}
+
+	/**
+	 * Do not use this shitty method! Use {@link MinigolfClub#getParticipations(ParticipationFilter)} instead.
+	 * @throws DataNotFoundException 
+	 */
+	@Deprecated
+	public List<Participation> getPersonScores(String string, int i) throws DataNotFoundException {
+		ParticipationFilter filter = new ParticipationFilter();
+		Person p = findPerson(string);
+		if((p instanceof Member) == false ) {
+			throw new DataNotFoundException();
+		}
+		filter.setMember((Member) p);
+		filter.setDateFrom(LocalDate.of(i-1, 12, 31));
+		filter.setDateTo(LocalDate.of(i+1, 1, 1));
+		List<Participation> result = getParticipations(filter);
+		return result;
+	}
+
+	/**
+	 * Do not use this shitty method! Use {@link MinigolfClub#getParticipations(ParticipationFilter)} instead.
+	 * @throws DataNotFoundException 
+	 */
+	@Deprecated
+	public List<Participation> getParticipationList(int i) throws DataNotFoundException {
+		ParticipationFilter filter = new ParticipationFilter();
+		filter.setDateFrom(LocalDate.of(i-1, 12, 31));
+		filter.setDateTo(LocalDate.of(i+1, 1, 1));
+		List<Participation> result = getParticipations(filter);
+		return result;
+	}
+	
+	
 	
 }

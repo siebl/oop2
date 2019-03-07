@@ -7,6 +7,8 @@ public class ParticipationFilter implements Predicate<Participation> {
 
 	private Tournament tournament;
 	
+	private Integer tournamentId;
+	
 	private Category category;
 	
 	private Gender gender;
@@ -22,6 +24,9 @@ public class ParticipationFilter implements Predicate<Participation> {
 		boolean matches = true;
 		if(tournament != null) {
 			matches &= participation.getTournament().equals(tournament);
+		}
+		if(tournamentId != null) {
+			matches &= tournamentId.equals( participation.getTournament().getId() );
 		}
 		if(category != null) {
 			matches &= participation.getCategory() == category;
@@ -66,6 +71,10 @@ public class ParticipationFilter implements Predicate<Participation> {
 
 	public void setDateTo(LocalDate dateTo) {
 		this.dateTo = dateTo;
+	}
+
+	public void setTournamentId(Integer tournamentId) {
+		this.tournamentId = tournamentId;
 	}
 
 }

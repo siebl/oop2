@@ -49,4 +49,10 @@ public class Participation {
 		this.category = category;
 	}
 
+	@Override
+	public String toString() {
+		return "Participation [member=" + member + ", tournament=" + tournament + ", result=" + result + ", category="
+				+ category + "]";
+	}
+
 }
