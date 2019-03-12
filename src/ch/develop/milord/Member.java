@@ -29,4 +29,10 @@ public abstract class Member extends Person {
 		this.trainer = trainer;
 	}
 
+	@Override
+	public String toString() {
+		return "Member [dateOfBirth=" + dateOfBirth + ", trainer=" + trainer + ", id=" + id + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", sex=" + sex + "]";
+	}
+
 }
