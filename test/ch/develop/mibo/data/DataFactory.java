@@ -1,4 +1,4 @@
-package ch.develop.milord;
+package ch.develop.mibo.data;
 
 public class DataFactory{
 	
@@ -6,7 +6,7 @@ public class DataFactory{
 		return new PersonDAO();
 	}
 
-	public static ParticipationDAO getResultDAO() {
+	public static ParticipationDAO getParticipationDAO() {
 		return new ParticipationDAO();
 	}
 
