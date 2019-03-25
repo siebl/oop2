@@ -2,10 +2,14 @@ package ch.develop.mibo.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import ch.develop.mibo.utils.DataNotFoundException;
 import ch.develop.mibo.utils.RankingEntry;
@@ -53,8 +57,11 @@ public class MinigolfClub {
 	 * @throws DataNotFoundException
 	 */
 	public Person findPerson(String personId) throws DataNotFoundException {
-		// ToDo
-		throw new DataNotFoundException("Person", personId);
+		Person result = personList.get(personId);
+		if( result == null ) {
+			throw new DataNotFoundException("Person", personId);
+		}
+		return result;
 	}
 
 	/**
@@ -63,8 +70,11 @@ public class MinigolfClub {
 	 * @throws DataNotFoundException
 	 */
 	public Tournament findTournament(int tournamentId) throws DataNotFoundException {
-		// ToDo
-		throw new DataNotFoundException("Tournament", tournamentId);
+		Tournament result = tournamentList.get( tournamentId );
+		if( result == null ) {
+			throw new DataNotFoundException("Tournament", tournamentId);
+		}
+		return result;
 	}
 
 	
@@ -74,8 +84,11 @@ public class MinigolfClub {
 	 * @throws DataNotFoundException
 	 */
 	public SortedSet<Participation> getTournamentScores(int tournamentId) throws DataNotFoundException {
-		// ToDo
-		throw new DataNotFoundException("TournamentScores: " + tournamentId);
+		SortedSet<Participation> result = participationsPerTournament.get(tournamentId);
+		if( result == null ) {
+			throw new DataNotFoundException("TournamentScores: " + tournamentId);
+		}
+		return result;
 	}
 	
 
@@ -86,8 +99,11 @@ public class MinigolfClub {
 	 * @throws DataNotFoundException
 	 */
 	public SortedSet<Participation> getTournamentScores(int tournamentId, Category category) throws DataNotFoundException {
-		// ToDo
-		throw new DataNotFoundException("TournamentScores: " + tournamentId + " " +  category);
+		SortedSet<Participation> participations = participationsPerTournament.get( tournamentId );
+		if( participations == null ) {
+			throw new DataNotFoundException("TournamentScores: " + tournamentId + " " +  category);
+		}
+		return participations;
 	}
 	
 	
@@ -98,8 +114,27 @@ public class MinigolfClub {
 	 * @throws DataNotFoundException
 	 */
 	public SortedSet<Participation> getPersonScores(String personId, int year) throws DataNotFoundException {
-		// ToDo
-		return null;
+		participationsPerPerson.clear();
+		DataFactory.getParticipationDAO().loadParticipations(year);
+		SortedSet<Participation> result1 = participationsPerPerson.get( personId );
+		if( result1 == null ) {
+			throw new DataNotFoundException();
+		}
+		Set<Participation> temp = result1.stream().filter( new Predicate<Participation>() {
+			@Override
+			public boolean test(Participation t) {
+				return t.getTournament().getDate().getYear() == year;
+			}
+		}).collect(Collectors.toSet());
+		if(temp.isEmpty()) {
+			throw new DataNotFoundException();
+		}
+		
+		SortedSet<Participation> result2 = new TreeSet<>(temp);
+		if( result2.isEmpty() ) {
+			throw new DataNotFoundException();
+		}
+		return result2;
 	}
 
 
@@ -111,8 +146,38 @@ public class MinigolfClub {
 	 * @throws DataNotFoundException
 	 */
 	public <T extends Member> double getScore(T member, int year, int q) throws DataNotFoundException {
-		// ToDo
-		return 200;
+		participationsPerPerson.clear();
+		DataFactory.getParticipationDAO().loadParticipations(year);
+		Set<Participation> participationSet = participationsPerPerson.get(member.getId());
+		
+		if( participationSet == null ) {
+			throw new DataNotFoundException();
+		}
+		
+		double score = 200;
+		if( participationSet.size() > q ) {
+			score = 0;
+			Iterator<Participation> iter = participationSet.iterator();
+			for( int i = 0; i < q; i++ ) {
+				score += iter.next().getResult();
+			}
+			score /= q;
+		}
+		
+		return score;
+	}
+	
+	private int getRanking( Member m, SortedSet<Participation> participationSet ) throws DataNotFoundException {
+		int rank = 0;
+		Iterator<Participation> iter = participationSet.iterator();
+		while( iter.hasNext() ) {
+			rank++;
+			Participation current = iter.next();
+			if( current.getMember().equals(m) ) {
+				return rank;
+			}
+		}
+		throw new DataNotFoundException();
 	}
 
 	/**
@@ -124,8 +189,15 @@ public class MinigolfClub {
 	 */
 	public <T extends Member> int getRanking(T member, Tournament tournament, Category category)
 			throws DataNotFoundException {
-		// ToDo
-		throw new DataNotFoundException(member, tournament, category);
+		SortedSet<Participation> tournamentScores = getTournamentScores(tournament.getId(), category);
+		SortedSet<Participation> filtered = new TreeSet<>(tournamentScores.stream().filter( new Predicate<Participation>() {
+			@Override
+			public boolean test(Participation t) {
+				return t.getCategory() == category;
+			}
+		}).collect(Collectors.toSet()) );
+		
+		return getRanking(member, filtered);
 	}
 
 	/**

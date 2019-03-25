@@ -2,7 +2,7 @@ package ch.develop.mibo.data;
 
 import java.time.LocalDate;
 
-public class Tournament {
+public class Tournament implements Comparable<Tournament> {
 
 	private int id;
 	private LocalDate date;
@@ -46,5 +46,10 @@ public class Tournament {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+	
+	@Override
+	public int compareTo(Tournament o) {
+		return Integer.compare(this.getId(), o.getId());
 	}
 }

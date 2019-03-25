@@ -78,5 +78,4 @@ public class PersonDAO {
 		String text = stmt.toString();
 		logger.info(text.substring(text.indexOf(":") + 1));
 	}
-
 }

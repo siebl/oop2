@@ -2,7 +2,7 @@ package ch.develop.mibo.data;
 
 import java.time.LocalDate;
 
-public abstract class Member extends Person {
+public abstract class Member extends Person implements Comparable<Member> {
 
 	private LocalDate dateOfBirth;
 	protected Person trainer;
@@ -27,5 +27,10 @@ public abstract class Member extends Person {
 
 	public void setTrainer(Person trainer) {
 		this.trainer = trainer;
+	}
+	
+	@Override
+	public int compareTo(Member o) {
+		return this.getId().compareTo( o.getId() );
 	}
 }

@@ -224,7 +224,7 @@ public class Tests {
 
 	@Test
 	void test43() throws DataNotFoundException {
-		assertEquals(6, club.getPersonScores("elif1", 2019).size());
+		assertEquals(4, club.getPersonScores("elif1", 2019).size());
 	}
 
 
@@ -236,7 +236,7 @@ public class Tests {
 	@Test
 	void test49() throws DataNotFoundException {
 		double r = club.getScore((Member) club.findPerson("self1"), 2018, 3);
-		assertEquals(22.4, r);
+		assertEquals(22.4, r, 0.00001);
 	}
 
 	@Test
@@ -253,37 +253,29 @@ public class Tests {
 
 	@Test
 	void test52() throws DataNotFoundException {
-		double r = club.getScore((Member) club.findPerson("elif2"), 2018, 3);
-		assertEquals(22.07, r, 0.1);
+		double r = club.getScore((Member) club.findPerson("elif2"), 2019, 3);
+		assertEquals(24.33, r, 0.1);
 	}
 
 	@Test
 	void test53() throws DataNotFoundException {
-		Iterator<Participation> iter = club.getPersonScores("elif2", 2018).iterator();
-		assertEquals(19.2, iter.next().getResult());
+		Iterator<Participation> iter = club.getPersonScores("elif2", 2019).iterator();
+		assertEquals(23.0, iter.next().getResult(), 0.1);
 	}
 
 	@Test
 	void test54() throws DataNotFoundException {
-		Iterator<Participation> iter = club.getPersonScores("elif2", 2018).iterator();
+		Iterator<Participation> iter = club.getPersonScores("elif2", 2019).iterator();
 		iter.next();
-		assertEquals(23.0, iter.next().getResult());
+		assertEquals(24.0, iter.next().getResult(), 0.1);
 	}
 
 	@Test
 	void test55() throws DataNotFoundException {
-		Iterator<Participation> iter = club.getPersonScores("elif2", 2018).iterator();
+		Iterator<Participation> iter = club.getPersonScores("elif2", 2019).iterator();
 		iter.next();
 		iter.next();
-		assertEquals(24.0, iter.next().getResult());
-	}
-
-	@Test
-	void test56() throws DataNotFoundException {
-		Member m = club.getMembers(Category.ELITE_MALE).get(0);
-		Tournament t = club.findTournament(16416);
-		int r = club.getRanking(m, t, Category.ELITE_MALE);
-		assertEquals(1, r);
+		assertEquals(26.0, iter.next().getResult(), 0.1);
 	}
 
 	@Test
@@ -338,6 +330,6 @@ public class Tests {
 	void test64() throws DataNotFoundException {
 		Member m = club.getMembers(Category.SENIOR).get(3);
 		int r = club.getRanking(m, Category.SENIOR, 2018);
-		assertEquals(4, r);
+		assertEquals(5, r);
 	}
 }
